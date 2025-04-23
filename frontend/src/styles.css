@@ -22,6 +22,7 @@ body {
   padding: 0;
   scroll-behavior: smooth;
   height: 100%;
+  overflow-x: hidden;
 }
 .topnav {
   background: #000000;
@@ -83,6 +84,8 @@ body {
   /* min-height: 100vh; */
   padding-top: 100px;
   color: #dcedff;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
 }
 
 .section-heading {
@@ -118,6 +121,8 @@ body {
     rgba(15, 15, 56, 1) 40%,
     rgba(11, 44, 59, 1) 100%
   );
+  padding-left: max(24px, env(safe-area-inset-left));
+  padding-right: max(24px, env(safe-area-inset-right));
 }
 
 .myCard {
@@ -203,6 +208,80 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   cursor: pointer;
 }
 
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-smooth::-webkit-scrollbar {
+  display: none;
+}
+
+.touch-pan-x {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+/* Prevent vertical scroll when carousel is active */
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.scroll-lock {
+  overscroll-behavior: none;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .cursor-grab {
+    cursor: default;
+  }
+}
+
+/* Add smooth dragging styles */
+.carousel {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel.dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+}
+
+.carousel:not(.dragging) {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+/* Improve card transitions */
+.project-card {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }

@@ -3,8 +3,6 @@ import expertiseData from '../../data/expertiseData';
 
 const Expertise = () => {
 
-  console.log('Expertise Data:', expertiseData); // Add this to debug
-
   return (
 
     <section id="expertise" className="page-section h-full">
