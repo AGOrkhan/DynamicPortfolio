@@ -21,6 +21,9 @@ const adminRoutes = require('./routes/admin');
 const app = express();
 const PORT = process.env.PORT;
 
+// Trust Nginx proxy
+app.set('trust proxy', process.env.NODE_ENV === 'production' ? '10.147.17.123' : false);
+
 // Libraries 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
@@ -89,7 +92,7 @@ const limiter = rateLimit({
   max: 100, // IP request limit
   message: 'Too many requests, please try again later.',
   standardHeaders: true, 
-  legacyHeaders: false, 
+  legacyHeaders: false
 });
 
 app.use('/api/', limiter);
