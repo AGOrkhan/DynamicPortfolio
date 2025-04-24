@@ -11,7 +11,7 @@ const Header = () => {
   let mobileMenu = null;
   if (isMenuOpen) {
     mobileMenu = (
-      <ul className="flex flex-col items-center bg-gray-800 text-white p-4 space-y-4 lg:hidden">
+      <ul className="absolute top-full left-0 right-0 flex flex-col items-center bg-gray-800 text-white p-4 space-y-4 lg:hidden">
         <li>
           <a href="#">Home</a>
         </li>
@@ -36,8 +36,8 @@ const Header = () => {
   }
 
   return (
-    <header>
-      <nav className="absolute top-0 left-0 w-full p-5 z-50 topnav">
+    <header className="absolute top-0 left-0 right-0">
+      <nav className="w-full p-5 z-50 topnav">
         {/* Burger Menu Button for Mobile View */}
         <button className="lg:hidden" onClick={openMenu}>
           <Menu className="w-10 h-10 text-white mr-5 hover:bg-blue-400 cursor-pointer" />

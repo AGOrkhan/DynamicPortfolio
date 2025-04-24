@@ -1,3 +1,5 @@
+import Header from './Header';
+
 const Hero = () => {
     const handleVideoError = (e) => {
         console.error('Video loading error:', e);
@@ -24,6 +26,8 @@ const Hero = () => {
                 />
                 Your browser does not support HTML5 video.
             </video>
+
+            <Header/>
             
             <p className="main-subtitle">Software Engineer, Full stack developer</p>
             <div className="hero-bottom-gradient" />

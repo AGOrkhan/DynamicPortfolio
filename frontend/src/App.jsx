@@ -49,7 +49,6 @@ function App() {
       />
       <main className="bg-black min-h-screen">
         <div ref={homePageRef} className="flex flex-col justify-center">
-          <Header />
           <Hero />
           <SideNav visible={!isHomePageVisible} />
         </div>
