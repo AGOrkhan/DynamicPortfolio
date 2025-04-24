@@ -24,6 +24,7 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
+
 .topnav {
   background: #000000;
   background: linear-gradient(
@@ -68,18 +69,6 @@ body {
   justify-content: center;
 }
 
-/* .background-video {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: 0;
-  object-fit: cover;
-} */
-
 .video-container {
   position: absolute;
   top: 0;
@@ -116,7 +105,6 @@ body {
 }
 
 .page-section {
-  /* min-height: 100vh; */
   padding-top: 100px;
   color: #dcedff;
   scroll-snap-align: start;
@@ -181,13 +169,14 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
   border-color: #8b5cf6;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
 }
 
 .contact-button {
@@ -218,9 +207,7 @@ body {
   --tw-bg-opacity: 1;
   padding: 12px 25px;
   border-radius: 4px;
-  /* background-color: rgba(127, 29, 29, var(--tw-bg-opacity)); */
   background-color: #732718;
-  /* background-color: #1a2028; */
   display: flex;
   width: 100%;
   align-items: center;
@@ -228,19 +215,22 @@ body {
   overflow: hidden
 }
 
-input,
-textarea {
-  transition: all 0.3s ease;
-}
-
-input:focus,
-textarea:focus {
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-}
-
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  color: #9ca3af;
+}
+
+input[type="date"]:focus::-webkit-datetime-edit {
+  color: white;
+}
+
+select option {
+  background-color: #1f2937;
+  color: white;
 }
 
 .scrollbar-hide {
@@ -285,43 +275,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transition: opacity 500ms, transform 500ms;
 }
 
-.scroll-smooth {
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scroll-smooth::-webkit-scrollbar {
-  display: none;
-}
-
-.touch-pan-x {
-  -webkit-overflow-scrolling: touch;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-}
-
-/* Prevent vertical scroll when carousel is active */
-.overflow-hidden {
-  overflow: hidden;
-}
-
-.scroll-lock {
-  overscroll-behavior: none;
-}
-
-.snap-center {
-  scroll-snap-align: center;
-}
-
-@media (hover: none) and (pointer: coarse) {
-  .cursor-grab {
-    cursor: default;
-  }
-}
-
-/* Add smooth dragging styles */
 .carousel {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
@@ -339,7 +292,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   scroll-behavior: smooth;
 }
 
-/* Improve card transitions */
 .project-card {
   scroll-snap-align: center;
   scroll-snap-stop: always;
@@ -352,4 +304,39 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   line-clamp: 3;
   -webkit-box-orient: vertical;
   overflow: hidden;
+}
+
+.scroll-smooth {
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.scroll-smooth::-webkit-scrollbar {
+  display: none;
+}
+
+.touch-pan-x {
+  -webkit-overflow-scrolling: touch;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+}
+
+.overflow-hidden {
+  overflow: hidden;
+}
+
+.scroll-lock {
+  overscroll-behavior: none;
+}
+
+.snap-center {
+  scroll-snap-align: center;
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .cursor-grab {
+    cursor: default;
+  }
 }

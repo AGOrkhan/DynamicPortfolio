@@ -51,9 +51,7 @@ const ContactPage = () => {
   const inputStyle =
   "w-full p-3 mb-6 rounded-xl bg-[#111827] border border-gray-700 focus:ring-2 focus:ring-purple-500 outline-none text-white placeholder-gray-400";
 
-  const buttonStyle = `w-full bg-purple-600 hover:bg-purple-700 transition rounded-xl font-semibold py-3 ${
-    isSubmitting ? "opacity-75 cursor-not-allowed" : ""
-  }`;
+  const buttonStyle = "w-full bg-purple-600 hover:bg-purple-700 transition rounded-xl font-semibold py-3 text-white";
 
   const handleContactChange = (e) => {
     const { name, value } = e.target;
@@ -263,7 +261,7 @@ const ContactPage = () => {
               />
               <button
                 type="submit"
-                className={buttonStyle + " text-white"}
+                className={buttonStyle}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -304,15 +302,18 @@ const ContactPage = () => {
                 name="date"
                 value={scheduleForm.date}
                 onChange={handleScheduleChange}
-                className={`${inputStyle} [&::-webkit-calendar-picker-indicator]:invert`}
+                className={`${inputStyle} cursor-pointer appearance-none`}
                 required
                 disabled={isSubmitting}
+                style={{
+                  colorScheme: 'dark'
+                }}
               />
               <select
                 name="time"
                 value={scheduleForm.time}
                 onChange={handleScheduleChange}
-                className={inputStyle}
+                className={`${inputStyle} cursor-pointer`}
                 required
                 disabled={isSubmitting}
               >
@@ -430,7 +431,7 @@ const ContactPage = () => {
               />
               <button
                 type="submit"
-                className={buttonStyle + " text-white"}
+                className={buttonStyle}
                 disabled={isSubmitting}
               >
                 {isSubmitting ? (
@@ -471,15 +472,18 @@ const ContactPage = () => {
                 name="date"
                 value={scheduleForm.date}
                 onChange={handleScheduleChange}
-                className={`${inputStyle} [&::-webkit-calendar-picker-indicator]:invert`}
+                className={`${inputStyle} cursor-pointer appearance-none`}
                 required
                 disabled={isSubmitting}
+                style={{
+                  colorScheme: 'dark'
+                }}
               />
               <select
                 name="time"
                 value={scheduleForm.time}
                 onChange={handleScheduleChange}
-                className={inputStyle}
+                className={`${inputStyle} cursor-pointer`}
                 required
                 disabled={isSubmitting}
               >
