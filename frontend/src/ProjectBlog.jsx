@@ -2,12 +2,78 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "./utils/api";
 import { toast } from "react-hot-toast";
+import { Carousel } from "@material-tailwind/react";
 
 const ProjectBlog = () => {
     const [searchParams] = useSearchParams();
     const projectId = searchParams.get('id');
     const [project, setProject] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
+    const nextImage = () => {
+        setCurrentImageIndex((prev) =>
+            prev === (project.image_urls.length - 1) ? 0: prev + 1
+        );
+    };
+
+    const prevImage = () => {
+        setCurrentImageIndex((prev) => 
+            prev === 0 ? project.image_urls.length - 1 : prev - 1
+        );
+    };
+
+    const CarouselSection = () => (
+        <div className="relative w-full mb-8">
+            <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] relative rounded-xl overflow-hidden">
+                {project.image_urls && (
+                    <div className="w-full h-full relative">
+                        <img 
+                            src={getImageUrl(project.image_urls[currentImageIndex])}
+                            alt={`${project.title} - View ${currentImageIndex + 1}`}
+                            className="w-full h-full object-contain bg-gray-900 transition-opacity duration-500 ease-in-out"
+                            style={{
+                                animation: 'fadeInOut 0.5s ease-in-out'
+                            }}
+                        />
+                    </div>
+                )}
+                
+                {/* Navigation Buttons */}
+                <button 
+                    onClick={prevImage}
+                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 
+                              text-white p-4 rounded-full transition-all duration-300 
+                              hover:scale-110 hover:shadow-lg z-10"
+                >
+                    <span className="text-xl">←</span>
+                </button>
+                <button 
+                    onClick={nextImage}
+                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 
+                              text-white p-4 rounded-full transition-all duration-300 
+                              hover:scale-110 hover:shadow-lg z-10"
+                >
+                    <span className="text-xl">→</span>
+                </button>
+
+                {/* Dots Indicator */}
+                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2 z-10">
+                    {project.image_urls && project.image_urls.map((_, index) => (
+                        <button
+                            key={index}
+                            onClick={() => setCurrentImageIndex(index)}
+                            className={`h-2 rounded-full transition-all duration-300 ${
+                                currentImageIndex === index 
+                                    ? "w-8 bg-white scale-110" 
+                                    : "w-2 bg-white/50 hover:bg-white/75"
+                            }`}
+                        />
+                    ))}
+                </div>
+            </div>
+        </div>
+    );
 
     useEffect(() => {
         const fetchProject = async () => {
@@ -93,7 +159,7 @@ const ProjectBlog = () => {
                     </div>
                 </div>
 
-                {/* Image Gallery */}
+                {/* Image Gallery
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
                     {project.image_urls && project.image_urls.map((imageUrl, index) => (
                         <div key={index} 
@@ -109,7 +175,9 @@ const ProjectBlog = () => {
                                           transition-opacity duration-300" />
                         </div>
                     ))}
-                </div>
+                </div> */}
+                
+                <CarouselSection/>
 
                 {/* Content Section */}
                 <div className="bg-[#0f1824] rounded-lg shadow-xl p-6 text-white">
