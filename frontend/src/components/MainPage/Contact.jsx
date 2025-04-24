@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import { toast } from "react-hot-toast";
+import { IoLogoGithub } from "react-icons/io";
+import { FaLinkedin } from "react-icons/fa";
 import { Loader } from 'lucide-react';
 import { z } from "zod";
 import axios from "axios";
@@ -35,7 +37,6 @@ const ContactPage = () => {
     email: "",
     message: "",
   });
-  const [showScheduler, setShowScheduler] = useState(false);
   const [scheduleForm, setScheduleForm] = useState({
     name: "",
     email: "",
@@ -45,13 +46,12 @@ const ContactPage = () => {
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState({ type: "", text: "" });
+  const [formType, setFormType] = useState('message'); // 'message' or 'schedule'
 
   const inputStyle =
   "w-full p-3 mb-6 rounded-xl bg-[#111827] border border-gray-700 focus:ring-2 focus:ring-purple-500 outline-none text-white placeholder-gray-400";
 
-  const buttonStyle = `w-full bg-purple-600 hover:bg-purple-700 transition rounded-xl font-semibold py-3 ${
-    isSubmitting ? "opacity-75 cursor-not-allowed" : ""
-  }`;
+  const buttonStyle = "w-full bg-purple-600 hover:bg-purple-700 transition rounded-xl font-semibold py-3 text-white";
 
   const handleContactChange = (e) => {
     const { name, value } = e.target;
@@ -139,8 +139,9 @@ const ContactPage = () => {
   };
 
   return (
-    <section id="contact" className="min-h-screen flex items-center justify-center px-4 py-12">
-      <div className="grid md:grid-cols-2 gap-10 w-full max-w-6xl">
+    <section id="contact" className="min-h-screen flex items-center justify-center py-12">
+      {/* Desktop Layout - HIDE on mobile */}
+      <div className="hidden lg:grid lg:grid-cols-2 gap-10 w-full max-w-6xl px-4">
         {/* Left Panel */}
         <div className="text-white flex flex-col justify-center">
           <h2 className="text-4xl font-extrabold mb-4">Let's Talk</h2>
@@ -148,169 +149,414 @@ const ContactPage = () => {
             Reach out or book an interview with me. I would love to hear from you!
           </p>
 
-          <div className="space-y-3 text-lg font-mono text-purple-400">
-            <a href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL}`} className="hover:underline">
-              {import.meta.env.VITE_CONTACT_EMAIL}
+          <div className="flex flex-col gap-6 mt-8">
+            {/* Email Link */}
+            <a 
+              href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL}`} 
+              className="flex items-center gap-3 text-lg text-gray-300 hover:text-purple-400 transition-colors group"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <span className="font-mono group-hover:underline">
+                {import.meta.env.VITE_CONTACT_EMAIL}
+              </span>
             </a>
-            <div className="flex gap-4 text-sm text-white">
-              <a href={import.meta.env.VITE_LINKEDIN_URL} target="_blank" rel="noopener noreferrer">
-                LinkedIn
+
+            {/* Social Links */}
+            <div className="flex gap-6">
+              <a 
+                href={import.meta.env.VITE_LINKEDIN_URL} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
+              >
+                <FaLinkedin className="h-6 w-6" />
+                <span className="font-medium">LinkedIn</span>
               </a>
-              <a href={import.meta.env.VITE_GITHUB_URL} target="_blank" rel="noopener noreferrer">
-                GitHub
+              
+              <a 
+                href={import.meta.env.VITE_GITHUB_URL} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
+              >
+                <IoLogoGithub className="h-6 w-6" />
+                <span className="font-medium">GitHub</span>
               </a>
             </div>
           </div>
 
-          {/* Interview Scheduler */}
-          <div className="mt-8">
-            <h3 className="text-xl font-bold mb-2">Book an Interview</h3>
+          {/* Form Type Selector */}
+          <div className="mt-8 flex gap-4">
             <button
-              onClick={() => setShowScheduler((prev) => !prev)}
-              className={buttonStyle}
+              onClick={() => setFormType('message')}
+              className={`flex-1 py-2 px-4 rounded-xl transition-colors ${
+                formType === 'message' 
+                  ? 'bg-purple-600 text-white' 
+                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              }`}
             >
-              {showScheduler ? "Hide Scheduler" : "Schedule Now"}
+              Send Message
             </button>
-
-            {showScheduler && (
-              <form
-                onSubmit={handleScheduleSubmit}
-                className="mt-6 space-y-4 contact-form p-6 rounded-2xl shadow-lg"
-              >
-                <input
-                  type="text"
-                  name="name"
-                  value={scheduleForm.name}
-                  onChange={handleScheduleChange}
-                  placeholder="Name"
-                  className={inputStyle}
-                  required
-                  disabled={isSubmitting}
-                />
-                <input
-                  type="email"
-                  name="email"
-                  value={scheduleForm.email}
-                  onChange={handleScheduleChange}
-                  placeholder="Email"
-                  className={inputStyle}
-                  required
-                  disabled={isSubmitting}
-                />
-                <input
-                  type="date"
-                  name="date"
-                  value={scheduleForm.date}
-                  onChange={handleScheduleChange}
-                  className={`${inputStyle} [&::-webkit-calendar-picker-indicator]:invert`}
-                  required
-                  disabled={isSubmitting}
-                />
-                <select
-                  name="time"
-                  value={scheduleForm.time}
-                  onChange={handleScheduleChange}
-                  className={inputStyle}
-                  required
-                  disabled={isSubmitting}
-                >
-                  <option value="">Select time</option>
-                  {generateTimeSlots().map((slot) => (
-                    <option key={slot.value} value={slot.value}>
-                      {slot.label}
-                    </option>
-                  ))}
-                </select>
-                <textarea
-                  name="notes"
-                  value={scheduleForm.notes}
-                  onChange={handleScheduleChange}
-                  placeholder="Additional Notes (optional)"
-                  rows="3"
-                  className={inputStyle}
-                  disabled={isSubmitting}
-                />
-                <button
-                  type="submit"
-                  className={buttonStyle}
-                  disabled={isSubmitting}
-                >
-                  {isSubmitting ? (
-                    <span className="flex items-center justify-center">
-                      <Loader className="animate-spin mr-2" size={16} />
-                      Scheduling...
-                    </span>
-                  ) : (
-                    "Submit Booking"
-                  )}
-                </button>
-              </form>
-            )}
+            <button
+              onClick={() => setFormType('schedule')}
+              className={`flex-1 py-2 px-4 rounded-xl transition-colors ${
+                formType === 'schedule' 
+                  ? 'bg-purple-600 text-white' 
+                  : 'bg-gray-800 text-gray-400 hover:bg-gray-700'
+              }`}
+            >
+              Schedule Interview
+            </button>
           </div>
         </div>
 
-        {/* Right Panel - Contact Form */}
-        <form
-           onSubmit={handleContactSubmit}
-           className="contact-form"
-        >
-          <h2 className="text-3xl text-white font-bold mb-6">Send a Message</h2>
-          {message.text && (
-            <div
-              className={`mb-4 p-3 rounded ${
-                message.type === "success"
-                  ? "bg-green-600/20 text-green-400"
-                  : "bg-red-600/20 text-red-400"
-              }`}
-            >
-              {message.text}
-            </div>
+        {/* Right Panel - Dynamic Form */}
+        <div className="contact-form">
+          {formType === 'message' ? (
+            <form onSubmit={handleContactSubmit}>
+              <h2 className="text-3xl text-white font-bold mb-6">Send a Message</h2>
+              {message.text && (
+                <div
+                  className={`mb-4 p-3 rounded ${
+                    message.type === "success"
+                      ? "bg-green-600/20 text-green-400"
+                      : "bg-red-600/20 text-red-400"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              )}
+              <input
+                type="text"
+                name="name"
+                value={contactForm.name}
+                onChange={handleContactChange}
+                placeholder="Name"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <input
+                type="email"
+                name="email"
+                value={contactForm.email}
+                onChange={handleContactChange}
+                placeholder="Email"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <textarea
+                name="message"
+                value={contactForm.message}
+                onChange={handleContactChange}
+                placeholder="Message"
+                rows="5"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <button
+                type="submit"
+                className={buttonStyle}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <Loader className="animate-spin mr-2" size={16} />
+                    Sending...
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleScheduleSubmit}>
+              <h2 className="text-3xl text-white font-bold mb-6">Schedule Interview</h2>
+              <input
+                type="text"
+                name="name"
+                value={scheduleForm.name}
+                onChange={handleScheduleChange}
+                placeholder="Name"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <input
+                type="email"
+                name="email"
+                value={scheduleForm.email}
+                onChange={handleScheduleChange}
+                placeholder="Email"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <input
+                type="date"
+                name="date"
+                value={scheduleForm.date}
+                onChange={handleScheduleChange}
+                className={`${inputStyle} cursor-pointer appearance-none`}
+                required
+                disabled={isSubmitting}
+                style={{
+                  colorScheme: 'dark'
+                }}
+              />
+              <select
+                name="time"
+                value={scheduleForm.time}
+                onChange={handleScheduleChange}
+                className={`${inputStyle} cursor-pointer`}
+                required
+                disabled={isSubmitting}
+              >
+                <option value="">Select time</option>
+                {generateTimeSlots().map((slot) => (
+                  <option key={slot.value} value={slot.value}>
+                    {slot.label}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                name="notes"
+                value={scheduleForm.notes}
+                onChange={handleScheduleChange}
+                placeholder="Additional Notes (optional)"
+                rows="3"
+                className={inputStyle}
+                disabled={isSubmitting}
+              />
+              <button
+                type="submit"
+                className={buttonStyle}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <Loader className="animate-spin mr-2" size={16} />
+                    Scheduling...
+                  </span>
+                ) : (
+                  "Submit Booking"
+                )}
+              </button>
+            </form>
           )}
-          <input
-            type="text"
-            name="name"
-            value={contactForm.name}
-            onChange={handleContactChange}
-            placeholder="Name"
-            className={inputStyle}
-            required
-            disabled={isSubmitting}
-          />
-          <input
-            type="email"
-            name="email"
-            value={contactForm.email}
-            onChange={handleContactChange}
-            placeholder="Email"
-            className={inputStyle}
-            required
-            disabled={isSubmitting}
-          />
-          <textarea
-            name="message"
-            value={contactForm.message}
-            onChange={handleContactChange}
-            placeholder="Message"
-            rows="5"
-            className={inputStyle}
-            required
-            disabled={isSubmitting}
-          />
+        </div>
+      </div>
+
+      {/* Mobile Layout - SHOW on mobile */}
+      <div className="block lg:hidden w-full px-4 space-y-6">
+        <div className="text-center">
+          <h2 className="text-2xl sm:text-3xl font-extrabold mb-3 text-white">Let's Talk</h2>
+          <p className="text-gray-300 text-sm sm:text-base mb-6">
+            Reach out or book an interview with me. I would love to hear from you!
+          </p>
+        </div>
+
+        <div className="flex gap-2">
           <button
-            type="submit"
-            className={buttonStyle + " text-white"}
-            disabled={isSubmitting}
+            onClick={() => setFormType('message')}
+            className={`flex-1 py-2 px-3 text-sm rounded-xl transition-colors ${
+              formType === 'message' 
+                ? 'bg-purple-600 text-white' 
+                : 'bg-gray-800 text-gray-400'
+            }`}
           >
-            {isSubmitting ? (
-              <span className="flex items-center justify-center">
-                <Loader className="animate-spin mr-2" size={16} />
-                Sending...
-              </span>
-            ) : (
-              "Send Message"
-            )}
+            Send Message
           </button>
-        </form>
+          <button
+            onClick={() => setFormType('schedule')}
+            className={`flex-1 py-2 px-3 text-sm rounded-xl transition-colors ${
+              formType === 'schedule' 
+                ? 'bg-purple-600 text-white' 
+                : 'bg-gray-800 text-gray-400'
+            }`}
+          >
+            Schedule
+          </button>
+        </div>
+
+        <div className="bg-gray-900/50 p-4 sm:p-6 rounded-xl">
+          {formType === 'message' ? (
+            <form onSubmit={handleContactSubmit}>
+              <h2 className="text-3xl text-white font-bold mb-6">Send a Message</h2>
+              {message.text && (
+                <div
+                  className={`mb-4 p-3 rounded ${
+                    message.type === "success"
+                      ? "bg-green-600/20 text-green-400"
+                      : "bg-red-600/20 text-red-400"
+                  }`}
+                >
+                  {message.text}
+                </div>
+              )}
+              <input
+                type="text"
+                name="name"
+                value={contactForm.name}
+                onChange={handleContactChange}
+                placeholder="Name"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <input
+                type="email"
+                name="email"
+                value={contactForm.email}
+                onChange={handleContactChange}
+                placeholder="Email"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <textarea
+                name="message"
+                value={contactForm.message}
+                onChange={handleContactChange}
+                placeholder="Message"
+                rows="5"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <button
+                type="submit"
+                className={buttonStyle}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <Loader className="animate-spin mr-2" size={16} />
+                    Sending...
+                  </span>
+                ) : (
+                  "Send Message"
+                )}
+              </button>
+            </form>
+          ) : (
+            <form onSubmit={handleScheduleSubmit}>
+              <h2 className="text-3xl text-white font-bold mb-6">Schedule Interview</h2>
+              <input
+                type="text"
+                name="name"
+                value={scheduleForm.name}
+                onChange={handleScheduleChange}
+                placeholder="Name"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <input
+                type="email"
+                name="email"
+                value={scheduleForm.email}
+                onChange={handleScheduleChange}
+                placeholder="Email"
+                className={inputStyle}
+                required
+                disabled={isSubmitting}
+              />
+              <input
+                type="date"
+                name="date"
+                value={scheduleForm.date}
+                onChange={handleScheduleChange}
+                className={`${inputStyle} cursor-pointer appearance-none`}
+                required
+                disabled={isSubmitting}
+                style={{
+                  colorScheme: 'dark'
+                }}
+              />
+              <select
+                name="time"
+                value={scheduleForm.time}
+                onChange={handleScheduleChange}
+                className={`${inputStyle} cursor-pointer`}
+                required
+                disabled={isSubmitting}
+              >
+                <option value="">Select time</option>
+                {generateTimeSlots().map((slot) => (
+                  <option key={slot.value} value={slot.value}>
+                    {slot.label}
+                  </option>
+                ))}
+              </select>
+              <textarea
+                name="notes"
+                value={scheduleForm.notes}
+                onChange={handleScheduleChange}
+                placeholder="Additional Notes (optional)"
+                rows="3"
+                className={inputStyle}
+                disabled={isSubmitting}
+              />
+              <button
+                type="submit"
+                className={buttonStyle}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? (
+                  <span className="flex items-center justify-center">
+                    <Loader className="animate-spin mr-2" size={16} />
+                    Scheduling...
+                  </span>
+                ) : (
+                  "Submit Booking"
+                )}
+              </button>
+            </form>
+          )}
+        </div>
+
+        <div className="mt-6 pt-6 border-t border-gray-800/50">
+          <div className="flex flex-col items-center gap-4">
+            <a 
+              href={`mailto:${import.meta.env.VITE_CONTACT_EMAIL}`} 
+              className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors text-sm"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
+                <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
+              </svg>
+              <span className="font-mono">{import.meta.env.VITE_CONTACT_EMAIL}</span>
+            </a>
+
+            <div className="flex gap-6">
+              <a 
+                href={import.meta.env.VITE_LINKEDIN_URL} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
+              >
+                <FaLinkedin className="h-4 w-4" />
+                <span className="text-sm">LinkedIn</span>
+              </a>
+              
+              <a 
+                href={import.meta.env.VITE_GITHUB_URL} 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="flex items-center gap-2 text-gray-300 hover:text-purple-400 transition-colors"
+              >
+                <IoLogoGithub className="h-4 w-4" />
+                <span className="text-sm">GitHub</span>
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

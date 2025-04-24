@@ -73,7 +73,7 @@ const Projects = () => {
 
     return (
         <section id="projects" className="py-16 text-white px-4 md:px-24">
-            <h2 className="text-4xl font-extrabold text-center mb-10">Projects</h2>
+            <h2 className="section-heading font-extrabold text-center mb-10">Projects</h2>
 
             <div
                 ref={carouselRef}
