@@ -9,6 +9,13 @@ const Hero = () => {
         console.error('Video loading error:', e);
     };
 
+    const getVideoSource = () => {
+        if (userName === "Ikram Ahmed") {
+            return "/assets/background_iky_new.mp4";
+        }
+        return "/assets/background_new.mp4";
+    };
+
     useEffect(() => {
         const checkMobile = () => {
             const isM = window.innerWidth < 1024;
@@ -36,7 +43,7 @@ const Hero = () => {
                 onError={handleVideoError}
             >
                 <source 
-                    src={isMobile ? "/assets/notextnew.mp4": "/assets/background_new.mp4"} 
+                    src={isMobile ? "/assets/notextnew.mp4": getVideoSource()} 
                     type="video/mp4"
                 />
                 <source 
