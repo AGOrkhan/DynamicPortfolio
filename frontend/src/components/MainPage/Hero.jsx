@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import Header from './Header';
 
 const Hero = () => {
+    const userName = import.meta.env.VITE_USER_NAME;
     const [isMobile, setIsMobile] = useState(false);
 
     const handleVideoError = (e) => {
@@ -49,7 +50,7 @@ const Hero = () => {
             
             {isMobile ? (
                 <div className='z-20 text-center'>
-                    <h1 className='text-4xl md:text-5xl text-white font-mono mb-4'>Ikram Ahmed</h1>
+                    <h1 className='text-4xl md:text-5xl text-white font-mono mb-4'>{userName}</h1>
                     <p className="text-xl md:text-2xl text-white font-mono">Software Engineer, Full stack developer</p>
                 </div>
             ) : (
