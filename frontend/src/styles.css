@@ -279,6 +279,8 @@ select option {
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
+  touch-action: pan-x pinch-zoom;
+  overscroll-behavior-y: contain;
 }
 
 .carousel.dragging {

@@ -1,4 +1,4 @@
-import React, { useRef, useEffect, useState } from "react";
+import React, { useRef, useEffect, useState, Suspense } from "react";
 import Header from "./components/MainPage/Header";
 import Expertise from "./components/MainPage/Expertise";
 import Hero from "./components/MainPage/Hero";
@@ -8,6 +8,9 @@ import Work from "./components/MainPage/Work";
 import SideNav from "./components/MainPage/SideNav";
 import { Toaster } from 'react-hot-toast';
 import ErrorBoundary from './components/MainPage/ErrorBoundary';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+
+const AdminPanel = React.lazy(() => import('./components/Admin/AdminPanel'));
 
 function App() {
   const userId = import.meta.env.VITE_USER_ID;
@@ -34,6 +37,22 @@ function App() {
     };
   }, []);
 
+  useEffect(() => {
+    const handleWheel = (e) => {
+      const carousel = document.querySelector('.carousel');
+      if (carousel && (carousel === e.target || carousel.contains(e.target))) {
+        e.preventDefault();
+      }
+    };
+
+    // Add wheel event listener to document
+    document.addEventListener('wheel', handleWheel, { passive: false });
+
+    return () => {
+      document.removeEventListener('wheel', handleWheel);
+    };
+  }, []);
+
   return (
     <ErrorBoundary>
       <Toaster 
@@ -48,21 +67,36 @@ function App() {
           error: { style: { background: 'red' } },
         }}
       />
-      <main className="bg-black min-h-screen">
-          <div className="lg:hidden">
-            <Header/>
-          </div>
-        <div ref={homePageRef} className="flex flex-col justify-center">
-          <Hero />
-          <SideNav visible={!isHomePageVisible} />
-        </div>
-        <div className="sections">
-          <Expertise />
-          <Work userId={parseInt(userId)}/>
-          <Projects />
-          <Contact />
-        </div>
-      </main>
+      <Routes>
+        <Route 
+          path="/admin/*" 
+          element={
+            <Suspense>
+              <AdminPanel />
+            </Suspense>
+          } 
+        />
+        <Route 
+          path="/" 
+          element={
+            <main className="bg-black min-h-screen">
+              <div className="lg:hidden">
+                <Header/>
+              </div>
+              <div ref={homePageRef} className="flex flex-col justify-center">
+                <Hero />
+                <SideNav visible={!isHomePageVisible} />
+              </div>
+              <div className="sections">
+                <Expertise />
+                <Work userId={parseInt(userId)}/>
+                <Projects />
+                <Contact />
+              </div>
+            </main>
+          } 
+        />
+      </Routes>
     </ErrorBoundary>
   );
 }

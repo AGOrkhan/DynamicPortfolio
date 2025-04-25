@@ -1,11 +1,20 @@
 const pool = require('../config/database');
 const logger = require('../utils/logger');
 
+let projectCache = null;
+let lastFetch = null;
+const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
+
 exports.getProjects = async (req, res) => {
+    if (projectCache && lastFetch && (Date.now() - lastFetch) < CACHE_DURATION) {
+        return res.json(projectCache);
+    }
     try {
         const [projects] = await pool.execute(
             'SELECT * FROM projects WHERE is_archived = false ORDER BY created_at DESC'
         );
+        projectCache = projects;
+        lastFetch = Date.now();
         res.json(projects);
     } catch (error) {
         logger.error('Error fetching projects:', error);

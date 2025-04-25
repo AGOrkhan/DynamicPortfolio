@@ -4,8 +4,9 @@ import api from '../../utils/api';
 import ProjectPopup from "./ProjectPopup";
 import ConfirmationPopup from "./ConfirmationPopup";
 import { MdDelete, MdEdit } from "react-icons/md";
+import { Routes, Route, useNavigate } from 'react-router-dom';
 
-const AdminPanel = () => {
+const AdminDashboard = () => {
     const [projects, setProjects] = useState([]);
     const [archivedProjects, setArchivedProjects] = useState([]);
     const [showArchived, setShowArchived] = useState(false);
@@ -170,6 +171,15 @@ const AdminPanel = () => {
     );
 };
 
-export default AdminPanel;
+const AdminPanel = () => {
+    return (
+        <div className="min-h-screen bg-gray-900">
+            <Routes>
+                <Route path="/" element={<AdminDashboard />} />
+                <Route path="/projects" element={<AdminDashboard />} />
+            </Routes>
+        </div>
+    );
+};
 
-// main admin page which shows projects
+export default AdminPanel;

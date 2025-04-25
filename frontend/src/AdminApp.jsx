@@ -3,7 +3,9 @@ import { Routes, Route, useNavigate, Navigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast'
 import api from './utils/api'
 import AdminLogin from './components/Admin/AdminLogin'
-import AdminPanel from './components/Admin/AdminPanel'
+import React from 'react'
+
+const AdminPanel = React.lazy(() => import('./components/Admin/AdminPanel'))
 
 function AdminApp() {
     const [isAuthenticated, setIsAuthenticated] = useState(false)
