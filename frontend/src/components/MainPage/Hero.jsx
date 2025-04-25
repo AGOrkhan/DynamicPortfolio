@@ -1,13 +1,31 @@
+import { useState, useEffect } from 'react';
 import Header from './Header';
 
 const Hero = () => {
+    const [isMobile, setIsMobile] = useState(false);
+
     const handleVideoError = (e) => {
         console.error('Video loading error:', e);
     };
 
+    useEffect(() => {
+        const checkMobile = () => {
+            const isM = window.innerWidth < 1024;
+            console.log('Is Mobile:', isM, 'Width:', window.innerWidth); // Debug log
+            setIsMobile(isM);
+        };
+
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        return () => window.removeEventListener('resize', checkMobile);
+    }, []);
+
+    console.log('Current isMobile state:', isMobile); // Debug log
+
     return (
         <section id="home" className="page-section title-section relative min-h-screen flex items-center justify-center">
-            <video 
+            <video
+                key={isMobile ? 'mobile' : 'desktop'} // Add key to force video reload
                 autoPlay 
                 muted 
                 loop 
@@ -17,7 +35,7 @@ const Hero = () => {
                 onError={handleVideoError}
             >
                 <source 
-                    src="/assets/background_new.mp4" 
+                    src={isMobile ? "/assets/notextnew.mp4": "/assets/background_new.mp4"} 
                     type="video/mp4"
                 />
                 <source 
@@ -29,7 +47,14 @@ const Hero = () => {
 
             <Header/>
             
-            <p className="main-subtitle">Software Engineer, Full stack developer</p>
+            {isMobile ? (
+                <div className='z-20 text-center'>
+                    <h1 className='text-4xl md:text-5xl text-white font-mono mb-4'>Ikram Ahmed</h1>
+                    <p className="text-xl md:text-2xl text-white font-mono">Software Engineer, Full stack developer</p>
+                </div>
+            ) : (
+                <h1 className="main-subtitle z-10">Software Engineer, Full stack developer</h1>
+            )}
             <div className="hero-bottom-gradient" />
         </section>
     );

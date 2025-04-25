@@ -80,27 +80,27 @@ body {
 
 .background-video {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  object-fit: cover;
 }
 
-/* Add responsive scaling for smaller screens */
+/* Update responsive scaling for smaller screens */
 @media screen and (max-width: 768px) {
   .background-video {
-      width: 100%; /* Zoom out effect */
-      height: auto;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
   }
 }
 
 @media screen and (max-width: 480px) {
   .background-video {
-      width: 150%; /* Further zoom out for mobile */
-      height: auto;
+    width: 100%;
+    height: 100vh;
+    object-fit: cover;
   }
 }
 
