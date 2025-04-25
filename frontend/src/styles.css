@@ -24,6 +24,7 @@ body {
   height: 100%;
   overflow-x: hidden;
 }
+
 .topnav {
   background: #000000;
   background: linear-gradient(
@@ -68,18 +69,6 @@ body {
   justify-content: center;
 }
 
-.background-video {
-  position: absolute;
-  right: 0;
-  bottom: 0;
-  min-width: 100%;
-  min-height: 100%;
-  width: auto;
-  height: auto;
-  z-index: 0;
-  object-fit: cover;
-}
-
 .video-container {
   position: absolute;
   top: 0;
@@ -89,18 +78,15 @@ body {
   overflow: hidden;
 }
 
-/*.background-video {
+.background-video {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   min-width: 100%;
   min-height: 100%;
-  width: 100vw;  
-/*  height: 100vh; 
-/*  object-fit: cover; 
-/*  margin: 0;     
-/*  padding: 0
+  width: auto;
+  height: auto;
 }
 
 /* Add responsive scaling for smaller screens */
@@ -119,7 +105,6 @@ body {
 }
 
 .page-section {
-  /* min-height: 100vh; */
   padding-top: 100px;
   color: #dcedff;
   scroll-snap-align: start;
@@ -184,13 +169,14 @@ body {
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   width: 100%;
+  transition: all 0.3s ease;
 }
 
 .contact-form input:focus,
 .contact-form textarea:focus {
   outline: none;
   border-color: #8b5cf6;
-  box-shadow: 0 0 0 2px rgba(139, 92, 246, 0.5);
+  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
 }
 
 .contact-button {
@@ -221,9 +207,7 @@ body {
   --tw-bg-opacity: 1;
   padding: 12px 25px;
   border-radius: 4px;
-  /* background-color: rgba(127, 29, 29, var(--tw-bg-opacity)); */
   background-color: #732718;
-  /* background-color: #1a2028; */
   display: flex;
   width: 100%;
   align-items: center;
@@ -231,19 +215,22 @@ body {
   overflow: hidden
 }
 
-input,
-textarea {
-  transition: all 0.3s ease;
-}
-
-input:focus,
-textarea:focus {
-  box-shadow: 0 0 10px rgba(139, 92, 246, 0.5);
-}
-
 input[type="date"]::-webkit-calendar-picker-indicator {
   filter: invert(1);
   cursor: pointer;
+}
+
+input[type="date"]::-webkit-datetime-edit {
+  color: #9ca3af;
+}
+
+input[type="date"]:focus::-webkit-datetime-edit {
+  color: white;
+}
+
+select option {
+  background-color: #1f2937;
+  color: white;
 }
 
 .scrollbar-hide {
@@ -288,6 +275,37 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     transition: opacity 500ms, transform 500ms;
 }
 
+.carousel {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.carousel.dragging {
+  scroll-snap-type: none;
+  scroll-behavior: auto;
+  cursor: grabbing;
+}
+
+.carousel:not(.dragging) {
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.project-card {
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.line-clamp-3 {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
 .scroll-smooth {
   scroll-behavior: smooth;
   -webkit-overflow-scrolling: touch;
@@ -305,7 +323,6 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   scroll-snap-type: x mandatory;
 }
 
-/* Prevent vertical scroll when carousel is active */
 .overflow-hidden {
   overflow: hidden;
 }
@@ -324,35 +341,48 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   }
 }
 
-/* Add smooth dragging styles */
-.carousel {
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
+/* Sidenav and Mobile Menu Styles */
+.sidenav {
+  display: none;
 }
 
-.carousel.dragging {
-  scroll-snap-type: none;
-  scroll-behavior: auto;
-  cursor: grabbing;
+@media screen and (min-width: 1024px) {
+  .sidenav {
+    display: flex; /* Show on desktop */
+  }
+  
+  .mobile-menu-button {
+    display: none; /* Hide burger on desktop */
+  }
 }
 
-.carousel:not(.dragging) {
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.95);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.3s ease-in-out;
+  transform: translateX(-100%);
 }
 
-/* Improve card transitions */
-.project-card {
-  scroll-snap-align: center;
-  scroll-snap-stop: always;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+.mobile-menu.active {
+  transform: translateX(0);
 }
 
-.line-clamp-3 {
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
+.mobile-menu-button {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 51;
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
 }
