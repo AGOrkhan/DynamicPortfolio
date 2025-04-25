@@ -12,9 +12,9 @@ createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <Toaster position="top-right" />
       <Routes>
-        <Route path="/" element={<App />} />
         <Route path="/admin/*" element={<AdminApp />} />
-        <Route path="/projects" element={<ProjectBlog/>}></Route>
+        <Route path="/projects" element={<ProjectBlog />} />
+        <Route path="/*" element={<App />} />
       </Routes>
     </BrowserRouter>
   </StrictMode>

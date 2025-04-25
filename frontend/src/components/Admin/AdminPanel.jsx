@@ -4,9 +4,8 @@ import api from '../../utils/api';
 import ProjectPopup from "./ProjectPopup";
 import ConfirmationPopup from "./ConfirmationPopup";
 import { MdDelete, MdEdit } from "react-icons/md";
-import { Routes, Route, useNavigate } from 'react-router-dom';
 
-const AdminDashboard = () => {
+const AdminPanel = () => {
     const [projects, setProjects] = useState([]);
     const [archivedProjects, setArchivedProjects] = useState([]);
     const [showArchived, setShowArchived] = useState(false);
@@ -167,17 +166,6 @@ const AdminDashboard = () => {
                     confirmButtonClass="bg-red-600 hover:bg-red-500"
                 />
             )}
-        </div>
-    );
-};
-
-const AdminPanel = () => {
-    return (
-        <div className="min-h-screen bg-gray-900">
-            <Routes>
-                <Route path="/" element={<AdminDashboard />} />
-                <Route path="/projects" element={<AdminDashboard />} />
-            </Routes>
         </div>
     );
 };

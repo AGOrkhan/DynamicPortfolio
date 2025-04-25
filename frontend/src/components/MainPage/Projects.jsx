@@ -139,8 +139,8 @@ const Projects = () => {
                                 />
                             )}
                             <div className="p-6 flex flex-col h-2/5">
-                                <h3 className="text-2xl font-bold mb-4">{project.title}</h3>
-                                <div className="flex flex-wrap gap-2 mb-4">
+                                <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">{project.title}</h3>
+                                <div className="flex flex-wrap gap-2 mb-2 md:mb-4 tech-stack">
                                     {project?.tech_stack && (
                                         project.tech_stack.includes(',')
                                             ? project.tech_stack
@@ -165,22 +165,19 @@ const Projects = () => {
                                     )}
                                 </div>
                                 <div className="relative flex-grow">
-                                    <p className="text-gray-300 relative">
-                                        {project.description}
-                                    </p>
-                                    <div className="absolute bottom-0 right-0 flex items-end justify-end">
-                                        <div className="absolute right-full w-16 h-6 
-                                                      bg-gradient-to-l from-gray-800 to-transparent" />
-                                        <span 
-                                            onClick={() => navigate(`/projects?id=${project.id}`)}
-                                            className="text-sm text-gray-300 hover:text-white 
-                                                     underline underline-offset-2 font-normal 
-                                                     transition-colors duration-200 cursor-pointer
-                                                     bg-gray-800 pl-4"
-                                        >
-                                            Read
-                                        </span>
+                                    <div className="description-container">
+                                        <p className="text-gray-300">
+                                            {project.description}
+                                        </p>
                                     </div>
+                                    <span 
+                                        onClick={() => navigate(`/projects?id=${project.id}`)}
+                                        className="read-more text-sm text-gray-300 hover:text-white 
+                                                 underline underline-offset-2 font-normal 
+                                                 transition-colors duration-200 cursor-pointer"
+                                    >
+                                        Read
+                                    </span>
                                 </div>
                             </div>
                         </div>

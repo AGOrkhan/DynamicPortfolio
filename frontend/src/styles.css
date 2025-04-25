@@ -300,6 +300,54 @@ select option {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
+@media (max-width: 768px) {
+  .project-card h3 {
+    font-size: 1.25rem;  /* Smaller title on mobile */
+    margin-bottom: 0.5rem;
+  }
+
+  .project-card .tech-stack span {
+    font-size: 0.7rem;  /* Smaller tech stack tags */
+    padding: 0.25rem 0.75rem;
+  }
+
+  .project-card p {
+    font-size: 0.875rem;  /* Smaller description text */
+    line-height: 1.4;
+    margin-bottom: 2rem;  /* Space for read button */
+  }
+
+  .project-card {
+    height: 450px !important;  /* Force taller height on mobile */
+  }
+
+  .project-card .description-container {
+    position: relative;
+    max-height: 4.2em;  /* Show 3 lines of text */
+    overflow: hidden;
+  }
+
+  .project-card .description-container::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 40%;
+    height: 1.4em;
+    background: linear-gradient(to right, transparent, #1f2937 50%);
+    pointer-events: none;
+  }
+
+  .project-card .read-more {
+    position: absolute;
+    bottom: 1rem;
+    right: 1rem;
+    background: #1f2937;
+    padding-left: 0.5rem;
+    z-index: 10;
+  }
+}
+
 .line-clamp-3 {
   display: -webkit-box;
   -webkit-line-clamp: 3;
