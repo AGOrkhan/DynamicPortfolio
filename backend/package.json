@@ -13,7 +13,7 @@
     "bcrypt": "^5.1.1",
     "compression": "^1.8.0",
     "cors": "^2.8.5",
-    "csurf": "^1.10.0",
+    "csrf-csrf": "^3.2.2",
     "dompurify": "^3.2.5",
     "dotenv": "^16.4.7",
     "express": "^5.1.0",
