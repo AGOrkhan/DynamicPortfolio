@@ -1,57 +1,59 @@
 import { useState } from "react";
 import { ChevronDown } from "lucide-react";
-import workData from "../../data/workData"; // Assuming you have a workData.js file with the work experience data
+import workData from "../../data/workData";
 
-const Work = () => {
+const Work = ({ userId = 0 }) => {
   const [openIndex, setOpenIndex] = useState(null);
 
   const toggleSection = (index) => {
     setOpenIndex(openIndex === index ? null : index);
   };
 
-  // ^ABOVE IS THE SAME THING AS:
-  //
-  // const toggleSection = (index) => {
-  //   if (openIndex === index) {
-  //     setOpenIndex(null); // If it's already open, close it
-  //   } else {
-  //     setOpenIndex(index); // If it's not open, open it
-  //   }
-  // };
+  if (!workData[userId]) {
+    return null;
+  }
 
   return (
     <section id="work" className="page-section">
-      <h2 className="font-extrabold section-heading">Work</h2>
-      <div className="flex flex-col justify-center items-center">
-        <div className="w-3/6 flex flex-col rounded-xl justify-center items-start px-10 space-y-5 pt-5 pb-5">
-          {workData.map((job, index) => (
+      <h2 className="font-extrabold section-heading text-3xl md:text-5xl">Work</h2>
+      <div className="flex flex-col justify-center items-center w-full">
+        <div className="w-[92%] md:w-3/4 lg:w-3/6 flex flex-col rounded-xl justify-center items-start 
+                      px-4 md:px-10 space-y-4 md:space-y-5 pt-5 pb-5">
+          {workData[userId].map((job, index) => (
             <div key={index} className="w-full">
               <div
-                className="work-dropdown cursor-pointer transition-all duration-200 hover:bg-red-800 hover:scale-[1.02]"
+                className="work-dropdown cursor-pointer transition-all duration-200 hover:bg-red-800 hover:scale-[1.02]
+                          p-4 md:p-6 rounded-lg bg-gray-800/30"
                 onClick={() => toggleSection(index)}
               >
-                <span className="work-headings truncate flex-1 mr-4">{job.title}</span>
-                <span className="flex items-center gap-2">
-                  <span className="work-headings">{job.years}</span>
-                  <ChevronDown
-                    size={30}
-                    className={`transition-transform duration-300 
-                      ${openIndex === index ? "rotate-180" : ""}`}
-                  />
-                </span>
+                <div className="relative flex items-center justify-between w-full">
+                  <span className="work-headings text-lg md:text-xl block truncate pr-4">
+                    {job.title}
+                  </span>
+                  <div className="flex items-center gap-2 shrink-0">
+                    <span className="work-headings text-sm md:text-base text-gray-400">
+                      {job.years}
+                    </span>
+                    <ChevronDown
+                      size={20}
+                      className={`transition-transform duration-300 
+                        ${openIndex === index ? "rotate-180" : ""}`}
+                    />
+                  </div>
+                </div>
               </div>
 
-              {/* Animated Content */}
               <div
-                className={`overflow-hidden h-full transition-all duration-300 ease-in-out ${
+                className={`overflow-hidden transition-all duration-300 ease-in-out ${
                   openIndex === index
-                    ? "max-h-[40vh] md:max-h-full opacity-100 mt-2"
+                    ? "max-h-[60vh] opacity-100 mt-2"
                     : "max-h-0 opacity-0"
                 }`}
               >
-                <div className="text-gray-200 px-10 py-5 bg-[#301616] rounded-md overflow-hidden">
-                  <p className="line-clamp-5 md:line-clamp-none">
+                <div className="text-gray-200 px-4 md:px-10 py-4 md:py-5 bg-[#301616] rounded-md">
+                  <p className="text-sm md:text-base leading-relaxed relative">
                     {job.details}
+                    <span className="absolute bottom-0 right-0 w-16 h-full bg-gradient-to-l from-[#301616] to-transparent"></span>
                   </p>
                 </div>
               </div>

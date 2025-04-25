@@ -10,6 +10,7 @@ import { Toaster } from 'react-hot-toast';
 import ErrorBoundary from './components/MainPage/ErrorBoundary';
 
 function App() {
+  const userId = import.meta.env.VITE_USER_ID;
   const homePageRef = useRef(null);
   const [isHomePageVisible, setIsHomePageVisible] = useState(true);
 
@@ -57,7 +58,7 @@ function App() {
         </div>
         <div className="sections">
           <Expertise />
-          <Work />
+          <Work userId={parseInt(userId)}/>
           <Projects />
           <Contact />
         </div>
