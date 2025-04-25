@@ -11,27 +11,36 @@ const Header = () => {
   let mobileMenu = null;
   if (isMenuOpen) {
     mobileMenu = (
-      <ul className="absolute top-full left-0 right-0 flex flex-col items-center bg-gray-800 text-white p-4 space-y-4 lg:hidden">
-        <li>
-          <a href="#">Home</a>
-        </li>
-        <div className="w-full h-px bg-white"></div>
-        <li>
-          <a href="#expertise">Expertise</a>
-        </li>
-        <div className="w-full h-px bg-white"></div>
-        <li>
-          <a href="#work">Work Experience</a>
-        </li>
-        <div className="w-full h-px bg-white"></div>
-        <li>
-          <a href="#projects">Projects</a>
-        </li>
-        <div className="w-full h-px bg-white"></div>
-        <li>
-          <a href="#contact">Contact</a>
-        </li>
-      </ul>
+      <div className="fixed top-0 left-0 w-full h-screen bg-black/90 backdrop-blur-sm z-50 lg:hidden">
+        <nav className="pt-20">
+          <ul className="flex flex-col items-center space-y-8">
+            <li>
+              <a href="#" className="text-xl text-white hover:text-purple-400 transition-colors" 
+                 onClick={() => setIsMenuOpen(false)}>//home</a>
+              <div className="w-full h-px bg-white/20 mt-4"></div>
+            </li>
+            <li>
+              <a href="#expertise" className="text-xl text-white hover:text-purple-400 transition-colors" 
+                 onClick={() => setIsMenuOpen(false)}>//expertise</a>
+              <div className="w-full h-px bg-white/20 mt-4"></div>
+            </li>
+            <li>
+              <a href="#work" className="text-xl text-white hover:text-purple-400 transition-colors" 
+                 onClick={() => setIsMenuOpen(false)}>//experience</a>
+              <div className="w-full h-px bg-white/20 mt-4"></div>
+            </li>
+            <li>
+              <a href="#projects" className="text-xl text-white hover:text-purple-400 transition-colors" 
+                 onClick={() => setIsMenuOpen(false)}>//projects</a>
+              <div className="w-full h-px bg-white/20 mt-4"></div>
+            </li>
+            <li>
+              <a href="#contact" className="text-xl text-white hover:text-purple-400 transition-colors" 
+                 onClick={() => setIsMenuOpen(false)}>//contact</a>
+            </li>
+          </ul>
+        </nav>
+      </div>
     );
   }
 
