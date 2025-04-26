@@ -1,6 +1,7 @@
 import { Smartphone } from "lucide-react";
-import { FaReact, FaPython, FaJava, FaNodeJs, FaAws } from 'react-icons/fa';
-import { SiSpringboot } from 'react-icons/si';
+import { FaReact, FaPython, FaJava, FaNodeJs, FaAws, FaNetworkWired  } from 'react-icons/fa';
+import { PiStack } from "react-icons/pi";
+import { LuBrainCircuit } from "react-icons/lu";
 
 const expertiseData = {
     0: [
@@ -22,19 +23,19 @@ const expertiseData = {
     ],
     1: [
         {
-            icon: FaJava,
-            title: "Backend Development",
-            description: "Extensive experience with Java and Spring Boot for building scalable microservices and RESTful APIs.",
-        },
-        {
-            icon: FaNodeJs,
+            icon: PiStack,
             title: "Full Stack Development",
-            description: "Proficient in Node.js and React for building modern web applications with responsive design and optimal performance.",
+            description: "Experienced in building scalable web applications with a strong emphasis on backend systems using Java, Spring Boot, Django, and Node.js, while delivering responsive front-end solutions with React and Vaadin. Solid background in API design, database management, and system optimization.",
         },
         {
-            icon: FaAws,
-            title: "Cloud Architecture",
-            description: "Experienced in AWS cloud services, containerization with Docker, and CI/CD pipeline implementation.",
+            icon: FaNetworkWired,
+            title: "Network and Systems Engineering",
+            description: "Proficient in Linux and Windows server administration, network troubleshooting, and systems optimization. Experienced in deploying secure server environments, configuring networks, and maintaining high-availability systems for production environments.",
+        },
+        {
+            icon: LuBrainCircuit,
+            title: "Artificial Intelligence Development",
+            description: "Proficient in designing machine learning and computer vision solutions using reinforcement learning, deep learning, and real-time inference. Experienced in training AI agents with Unity ML-Agents, building scalable AI systems, and applying intelligent models for automation and optimization tasks.",
         },
     ]
 };
