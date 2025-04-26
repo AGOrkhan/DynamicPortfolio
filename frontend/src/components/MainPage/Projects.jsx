@@ -127,54 +127,35 @@ const Projects = () => {
                 >
                     {projects.map((project) => (
                         <div key={project.id} 
-                             className="project-card shrink-0 w-[300px] md:w-[700px] h-[400px] md:h-[500px] 
-                                      bg-gray-800 rounded-2xl shadow-lg first:ml-4 md:first:ml-8 last:mr-[20%]
-                                      transition-transform duration-300 hover:scale-[1.02]">
+                             className="project-card shrink-0 w-[300px] md:w-[700px] bg-gray-800 rounded-2xl shadow-lg 
+                                      first:ml-4 md:first:ml-8 last:mr-[20%] transition-transform duration-300 hover:scale-[1.02]">
                             {project.image_urls && (
                                 <img
                                     src={`${import.meta.env.VITE_API_URL}/assets/${project.image_urls[0]}`}
                                     alt={project.title}
-                                    className="w-full h-3/5 object-cover rounded-t-2xl"
+                                    className="rounded-t-2xl"
                                     draggable="false"
                                 />
                             )}
-                            <div className="p-6 flex flex-col h-2/5">
-                                <h3 className="text-xl md:text-2xl font-bold mb-2 md:mb-4">{project.title}</h3>
-                                <div className="flex flex-wrap gap-2 mb-2 md:mb-4 tech-stack">
-                                    {project?.tech_stack && (
-                                        project.tech_stack.includes(',')
-                                            ? project.tech_stack
-                                                .split(',')
-                                                .map(tech => tech.trim())
-                                                .filter(tech => tech.length > 0)
-                                                .map((tech, idx) => (
-                                                    <span
-                                                        key={idx}
-                                                        className="px-3 py-1 bg-purple-600 hover:bg-purple-700 
-                                                                rounded-full text-xs font-medium tracking-wider
-                                                                transition-colors duration-200"
-                                                    >
-                                                        {tech}
-                                                    </span>
-                                                ))
-                                            : <span className="px-3 py-1 bg-purple-600 hover:bg-purple-700 
-                                                            rounded-full text-xs font-medium tracking-wider
-                                                            transition-colors duration-200">
-                                                {project.tech_stack.trim()}
-                                            </span>
-                                    )}
+                            <div className="content-wrapper">
+                                <h3 className="text-xl font-bold">{project.title}</h3>
+                                <div className="tech-stack-container">
+                                    {project?.tech_stack && project.tech_stack.split(',').map((tech, idx) => (
+                                        <span key={idx} 
+                                              className="px-3 py-1 bg-purple-600 rounded-full text-xs font-medium 
+                                                       whitespace-nowrap">
+                                            {tech.trim()}
+                                        </span>
+                                    ))}
                                 </div>
-                                <div className="relative flex-grow">
-                                    <div className="description-container">
-                                        <p className="text-gray-300">
-                                            {project.description}
-                                        </p>
-                                    </div>
+                                <div className="description-container">
+                                    <p className="description-text text-gray-300">
+                                        {project.description}
+                                    </p>
                                     <span 
                                         onClick={() => navigate(`/projects?id=${project.id}`)}
                                         className="read-more text-sm text-gray-300 hover:text-white 
-                                                 underline underline-offset-2 font-normal 
-                                                 transition-colors duration-200 cursor-pointer"
+                                                 underline underline-offset-2 cursor-pointer"
                                     >
                                         Read
                                     </span>

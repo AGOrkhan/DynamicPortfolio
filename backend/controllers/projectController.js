@@ -5,6 +5,11 @@ let projectCache = null;
 let lastFetch = null;
 const CACHE_DURATION = 1000 * 60 * 60; // 1 hour
 
+const clearProjectCache = () => {
+    projectCache = null;
+    lastFetch = null;
+};
+
 exports.getProjects = async (req, res) => {
     if (projectCache && lastFetch && (Date.now() - lastFetch) < CACHE_DURATION) {
         return res.json(projectCache);
@@ -34,6 +39,7 @@ exports.addProject = async (req, res) => {
             [title, description, blogContent, techStack, JSON.stringify(imageUrls)]
         );
 
+        clearProjectCache();
         res.json({ message: 'Project added successfully' });
     } catch (error) {
         logger.error('Error adding project:', error);
@@ -97,6 +103,7 @@ exports.updateProject = async (req, res) => {
             [title, description, blogContent, techStack, JSON.stringify(imageUrls), id]
         );
 
+        clearProjectCache(); 
         await connection.commit();
         res.json({ 
             message: 'Project updated successfully',
@@ -156,6 +163,7 @@ exports.deleteProject = async (req, res) => {
         }
 
         await connection.execute('DELETE FROM projects WHERE id = ?', [id]);
+        clearProjectCache();
         res.json({ message: 'Project deleted successfully' });
     } catch (error) {
         logger.error('Error deleting project:', error);
@@ -175,6 +183,7 @@ exports.archiveProject = async (req, res) => {
             [id]
         );
 
+        clearProjectCache();
         res.json({ message: 'Project archived successfully' });
     } catch (error) {
         logger.error('Error archiving project:', error);
@@ -194,6 +203,7 @@ exports.unarchiveProject = async (req, res) => {
             [id]
         );
 
+        clearProjectCache();
         res.json({ message: 'Project unarchived successfully' });
     } catch (error) {
         logger.error('Error unarchiving project:', error);

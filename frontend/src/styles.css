@@ -297,54 +297,75 @@ select option {
 .project-card {
   scroll-snap-align: center;
   scroll-snap-stop: always;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  flex-direction: column;
+  height: 500px; /* Fixed height for consistency */
+}
+
+.project-card .content-wrapper {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  padding: 1.5rem;
+}
+
+.project-card img {
+  height: 45%;
+  width: 100%;
+  object-fit: cover;
+}
+
+.tech-stack-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin: 1rem 0;
+  max-height: 4.5rem; /* Limit height for tech stack */
+  overflow-y: auto;
+}
+
+.description-container {
+  position: relative;
+  flex: 1;
+  min-height: 0; /* Allow container to shrink */
+  margin-bottom: 2.5rem; /* Space for read button */
+}
+
+.description-text {
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  line-height: 1.6;
+  word-break: break-word; /* Handle long words */
+  white-space: pre-line; /* Preserve line breaks */
+}
+
+.read-more {
+  position: absolute;
+  bottom: -2rem; /* Position at bottom */
+  right: 0;
+  padding: 0.25rem 0.5rem;
+  background: rgb(31 41 55);
+  z-index: 2;
 }
 
 @media (max-width: 768px) {
-  .project-card h3 {
-    font-size: 1.25rem;  /* Smaller title on mobile */
-    margin-bottom: 0.5rem;
-  }
-
-  .project-card .tech-stack span {
-    font-size: 0.7rem;  /* Smaller tech stack tags */
-    padding: 0.25rem 0.75rem;
-  }
-
-  .project-card p {
-    font-size: 0.875rem;  /* Smaller description text */
-    line-height: 1.4;
-    margin-bottom: 2rem;  /* Space for read button */
-  }
-
   .project-card {
-    height: 450px !important;  /* Force taller height on mobile */
+    height: 450px;
   }
 
-  .project-card .description-container {
-    position: relative;
-    max-height: 4.2em;  /* Show 3 lines of text */
-    overflow: hidden;
+  .project-card img {
+    height: 40%;
   }
 
-  .project-card .description-container::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    width: 40%;
-    height: 1.4em;
-    background: linear-gradient(to right, transparent, #1f2937 50%);
-    pointer-events: none;
+  .tech-stack-container {
+    max-height: 3.5rem;
   }
 
-  .project-card .read-more {
-    position: absolute;
-    bottom: 1rem;
-    right: 1rem;
-    background: #1f2937;
-    padding-left: 0.5rem;
-    z-index: 10;
+  .description-text {
+    font-size: 0.875rem;
+    line-height: 1.5;
   }
 }
 
