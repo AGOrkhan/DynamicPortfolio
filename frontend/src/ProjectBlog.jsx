@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useSearchParams } from "react-router-dom";
 import api from "./utils/api";
 import { toast } from "react-hot-toast";
-import { Carousel } from "@material-tailwind/react";
 
 const ProjectBlog = () => {
     const [searchParams] = useSearchParams();
@@ -26,35 +25,36 @@ const ProjectBlog = () => {
     const CarouselSection = () => (
         <div className="relative w-full mb-8">
             <div className="w-full h-[400px] md:h-[500px] lg:h-[600px] relative rounded-xl overflow-hidden">
+
+                <div className="w-full h-full relative overflow-x-auto snap-x snap-mandatory scroll-smooth scrollbar-hide">
                 {project.image_urls && (
-                    <div className="w-full h-full relative">
                         <img 
                             src={getImageUrl(project.image_urls[currentImageIndex])}
-                            alt={`${project.title} - View ${currentImageIndex + 1}`}
-                            className="w-full h-full object-contain bg-gray-900 transition-opacity duration-500 ease-in-out"
+                            alt={`${project.title} - View ${currentImageIndex + 1}`}  // Corrected here
+                            className="w-full h-full object-contain bg-[#1d73821c] py-2 transition-opacity duration-500 ease-in-out"
                             style={{
                                 animation: 'fadeInOut 0.5s ease-in-out'
                             }}
                         />
-                    </div>
                 )}
+                </div>
                 
                 {/* Navigation Buttons */}
                 <button 
                     onClick={prevImage}
-                    className="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 
-                              text-white p-4 rounded-full transition-all duration-300 
-                              hover:scale-110 hover:shadow-lg z-10"
+                    className="absolute left-4 inset-y-0 my-auto h-12 w-12 bg-purple-600 hover:bg-purple-700 
+                              text-white flex items-center justify-center rounded-full 
+                              transition-all duration-300 hover:scale-110 hover:shadow-lg z-10 cursor-pointer"
                 >
-                    <span className="text-xl">←</span>
+                    <span className="text-xl flex mb-[4px] items-center justify-center">←</span>
                 </button>
                 <button 
                     onClick={nextImage}
-                    className="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/75 
-                              text-white p-4 rounded-full transition-all duration-300 
-                              hover:scale-110 hover:shadow-lg z-10"
+                    className="absolute right-4 inset-y-0 my-auto h-12 w-12 bg-purple-600 hover:bg-purple-700
+                              text-white flex items-center justify-center rounded-full 
+                              transition-all duration-300 hover:scale-110 hover:shadow-lg z-10 cursor-pointer"
                 >
-                    <span className="text-xl">→</span>
+                    <span className="text-xl flex mb-[4px] items-center justify-center">→</span>
                 </button>
 
                 {/* Dots Indicator */}
@@ -67,7 +67,7 @@ const ProjectBlog = () => {
                                 currentImageIndex === index 
                                     ? "w-8 bg-white scale-110" 
                                     : "w-2 bg-white/50 hover:bg-white/75"
-                            }`}
+                            }`} // Added backticks here to support string interpolation
                         />
                     ))}
                 </div>
@@ -121,9 +121,9 @@ const ProjectBlog = () => {
             <div className="fixed top-4 left-4 z-10">
                 <button 
                     onClick={() => window.history.back()}
-                    className="px-4 py-2 bg-purple-600 hover:bg-purple-700 
-                             rounded-full transition-all duration-300 transform 
-                             hover:scale-105 flex items-center gap-2 text-white"
+                    className="px-4 py-2 bg-purple-600 opacity-40 hover:opacity-100 hover:bg-purple-700 
+                    rounded-full transition transition-all duration-300 transform hover:scale-105 
+                    flex items-center gap-2 text-white cursor-pointer"
                 >
                     ← Back
                 </button>
@@ -158,29 +158,12 @@ const ProjectBlog = () => {
                         )}
                     </div>
                 </div>
-
-                {/* Image Gallery
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    {project.image_urls && project.image_urls.map((imageUrl, index) => (
-                        <div key={index} 
-                             className="relative overflow-hidden rounded-lg shadow-lg group">
-                            <img 
-                                src={getImageUrl(imageUrl)} 
-                                alt={`${project.title} - View ${index + 1}`}
-                                className="w-full h-[300px] object-cover transform 
-                                         transition-all duration-300 group-hover:scale-105"
-                            />
-                            <div className="absolute inset-0 bg-gradient-to-t from-black/50 
-                                          to-transparent opacity-0 group-hover:opacity-100 
-                                          transition-opacity duration-300" />
-                        </div>
-                    ))}
-                </div> */}
                 
                 <CarouselSection/>
 
                 {/* Content Section */}
-                <div className="bg-[#0f1824] rounded-lg shadow-xl p-6 text-white">
+                <div className="bg-[#0f1824] rounded-lg p-6 text-white
+                                border border-purple-500/50 shadow-[0_0_15px_rgba(168,85,247,0.5)]">
                     <div className="prose prose-invert max-w-none">
                         <div className="mb-6">
                             <h2 className="text-2xl font-bold mb-3 text-purple-400">
