@@ -15,7 +15,7 @@ const Work = ({ userId = 0 }) => {
 
   return (
     <section id="work" className="page-section">
-      <h2 className="font-extrabold section-heading text-3xl md:text-5xl">Work</h2>
+      <h2 className="text-5xl lg:text-7xl text-center mb-[50px] font-extrabold">Work</h2>
       <div className="flex flex-col justify-center items-center w-full">
         <div className="w-[92%] md:w-3/4 lg:w-3/6 flex flex-col rounded-xl justify-center items-start 
                       px-4 md:px-10 space-y-4 md:space-y-5 pt-5 pb-5">

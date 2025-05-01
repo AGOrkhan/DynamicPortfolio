@@ -109,7 +109,7 @@ const Projects = () => {
 
     return (
         <section id="projects" className="py-16 text-white relative">
-            <h2 className="section-heading font-extrabold text-center mb-10">Projects</h2>
+            <h2 className="text-5xl lg:text-7xl text-center mb-[50px] font-extrabold">Projects</h2>
             
             <div className="relative px-4 md:px-12">
                 <div
