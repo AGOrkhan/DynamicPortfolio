@@ -24,7 +24,7 @@ const workData = {
     1: [ 
         {
             title: "IT Technician @ Innotech LTD",
-            years: "2021-2022",
+            years: "2021",
             details: "Resolved server and network infrastructure issues for a retail environment, reducing system downtime by 20% through proactive maintenance and troubleshooting. Provided hardware and technical support, significantly improving employee productivity and client satisfaction based on direct feedback.",
         },
         {
