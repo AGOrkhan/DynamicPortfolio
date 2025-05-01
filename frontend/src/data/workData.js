@@ -28,14 +28,14 @@ const workData = {
             details: "Resolved server and network infrastructure issues for a retail environment, reducing system downtime by 20% through proactive maintenance and troubleshooting. Provided hardware and technical support, significantly improving employee productivity and client satisfaction based on direct feedback.",
         },
         {
-            title: "Backend Developer @ Z1 (Zone)",
-            years: "2022-2022",
-            details: "Designed and implemented backend systems using Java Spring Boot and Laravel — popular frameworks in Azerbaijan — to support scalable, secure, and efficient web services. Worked closely with cross-functional teams to optimize databases, build REST APIs, and ensure high system reliability.",
+            title: "Network Engineer @ Z1 (Zone)",
+            years: "2022",
+            details: "Maintained secure internal/external networks for retail systems. Built ZeroTier-based VPN tunnels, configured NAT/port forwarding, and automated daily backups and alerts for high-availability service delivery.",
         },
         {
             title: "Freelance Web Developer @ Self-Employed",
-            years: "2023-2025",
-            details: "Developed custom websites and full-stack applications for clients across various industries, focusing on responsive design, backend integration, and performance optimization. Leveraged technologies including React, Node.js, and Django to deliver modern, production-ready solutions.",
+            years: "2024-Present",
+            details: "Delivered 5+ custom full-stack apps using React, Node.js, and Firebase. Focused on mobile-first design, backend scalability, and secure HTTPS deployments with CI/CD pipelines for production rollouts.",
         }
     ]
 };
