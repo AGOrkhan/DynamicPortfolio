@@ -29,7 +29,7 @@ const workData = {
         },
         {
             title: "Network Engineer @ Z1 (Zone)",
-            years: "2022",
+            years: "2023",
             details: "Maintained secure internal/external networks for retail systems. Built ZeroTier-based VPN tunnels, configured NAT/port forwarding, and automated daily backups and alerts for high-availability service delivery.",
         },
         {
