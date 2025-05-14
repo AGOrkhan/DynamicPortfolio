@@ -27,25 +27,63 @@ app.set('trust proxy', process.env.NODE_ENV === 'production' ? '10.147.17.123' :
 // Libraries 
 app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", process.env.FRONTEND_URL],
-      frameSrc: ["'none'"] 
-    }
-  },
-  crossOriginEmbedderPolicy: process.env.NODE_ENV === 'production',
-  crossOriginOpenerPolicy: process.env.NODE_ENV === 'production',
-  hidePoweredBy: true,
-  hsts: true,
-  noSniff: true,
-  referrerPolicy: { policy: 'same-origin' }
-}));
+app.use(
+  helmet({
+    // Hide framework (optional)
+    hidePoweredBy: true,
+    // Set DNS prefetch control
+    dnsPrefetchControl: { allow: true },
+    // Frame protection (you can also customize this)
+    frameguard: { action: "sameorigin" },
+    // IE no open file protection
+    ieNoOpen: true,
+    // MIME sniffing protection
+    noSniff: true,
+    // Cross-domain policies
+    permittedCrossDomainPolicies: { permittedPolicies: "none" },
+    // Referrer policy
+    referrerPolicy: { policy: "strict-origin-when-cross-origin" },
+    // Content Security Policy
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "https://www.googletagmanager.com",
+          "https://www.google-analytics.com",
+          "https://static.cloudflareinsights.com",
+        ],
+        connectSrc: [
+          "'self'",
+          "https://khanhosting.com",
+          "https://www.google-analytics.com",
+          "https://region1.google-analytics.com",
+          "https://cloudflareinsights.com",
+        ],
+        imgSrc: [
+          "'self'",
+          "data:",
+          "https://www.google-analytics.com",
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'", // needed for Google Fonts & inline Tailwind classes
+          "https://fonts.googleapis.com",
+        ],
+        fontSrc: [
+          "'self'",
+          "https://fonts.googleapis.com",
+          "https://fonts.gstatic.com",
+        ],
+        objectSrc: ["'none'"],
+        baseUri: ["'self'"],
+        formAction: ["'self'"],
+        upgradeInsecureRequests: [], // enforce HTTPS
+      },
+    },
+  })
+);
+
 
 app.use(compression({
   level: 6,
@@ -72,11 +110,20 @@ app.use(session({
 }));
 
 // CORS configuration
-app.use(cors({
-  origin: process.env.NODE_ENV === 'development'
+const allowedOrigins =
+  process.env.NODE_ENV === 'development'
     ? ['http://localhost:5173', 'http://127.0.0.1:5173']
-    : process.env.FRONTEND_URL,
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Added PUT/DELETE for admin commands
+    : process.env.FRONTEND_URL.split(',').map(origin => origin.trim());
+
+app.use(cors({
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS error: ${origin} not allowed`));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200

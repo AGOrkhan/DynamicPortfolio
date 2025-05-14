@@ -19,7 +19,6 @@ const Hero = () => {
     useEffect(() => {
         const checkMobile = () => {
             const isM = window.innerWidth < 1024;
-            console.log('Is Mobile:', isM, 'Width:', window.innerWidth); // Debug log
             setIsMobile(isM);
         };
 
@@ -27,8 +26,6 @@ const Hero = () => {
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
-
-    console.log('Current isMobile state:', isMobile); // Debug log
 
     return (
         <section id="home" className="page-section title-section relative min-h-screen flex items-center justify-center">
