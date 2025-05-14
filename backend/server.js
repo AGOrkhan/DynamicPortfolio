@@ -110,10 +110,7 @@ app.use(session({
 }));
 
 // CORS configuration
-const allowedOrigins =
-  process.env.NODE_ENV === 'development'
-    ? ['http://localhost:5173', 'http://127.0.0.1:5173']
-    : process.env.FRONTEND_URL.split(',').map(origin => origin.trim());
+const allowedOrigins = process.env.FRONTEND_URL.split(',');
 
 app.use(cors({
   origin: function (origin, callback) {
