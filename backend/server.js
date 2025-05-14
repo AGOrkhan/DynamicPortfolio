@@ -110,17 +110,11 @@ app.use(session({
 }));
 
 // CORS configuration
-const allowedOrigins = process.env.FRONTEND_URL.split(',');
-
 app.use(cors({
-  origin: function (origin, callback) {
-    if (!origin || allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error(`CORS error: ${origin} not allowed`));
-    }
-  },
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  origin: process.env.NODE_ENV === 'development'
+    ? ['http://localhost:5173', 'http://127.0.0.1:5173']
+    : process.env.FRONTEND_URL,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],  // Added PUT/DELETE for admin commands
   allowedHeaders: ['Content-Type', 'Authorization'],
   credentials: true,
   optionsSuccessStatus: 200
