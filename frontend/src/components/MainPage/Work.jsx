@@ -31,7 +31,7 @@ const Work = ({ userId = 0 }) => {
                     {job.title}
                   </span>
                   <div className="flex items-center gap-2 shrink-0">
-                    <span className="work-headings text-sm md:text-base text-gray-400">
+                    <span className="work-headings text-sm md:text-base text-white">
                       {job.years}
                     </span>
                     <ChevronDown
