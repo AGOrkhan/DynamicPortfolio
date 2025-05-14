@@ -74,10 +74,10 @@ exports.updateProject = async (req, res) => {
                 const oldImages = existingProject[0].image_urls;
                 
                 if (!keepExistingImages && Array.isArray(oldImages)) {
-                    // Delete old images
+                    // Delete old images - Fixed path to match actual directory structure
                     for (const oldImage of oldImages) {
                         try {
-                            await fs.unlink(path.join(__dirname, '../../public/assets', oldImage));
+                            await fs.unlink(path.join(__dirname, '../public/assets', oldImage));
                             logger.info(`Deleted old image: ${oldImage}`);
                         } catch (err) {
                             logger.error(`Failed to delete old image ${oldImage}:`, err);
@@ -91,13 +91,13 @@ exports.updateProject = async (req, res) => {
             
             // Add new image URLs
             const newImageUrls = req.files.map(file => file.filename);
-            imageUrls = [...imageUrls, ...newImageUrls];
+            imageUrls = keepExistingImages ? [...imageUrls, ...newImageUrls] : [...newImageUrls];
         } else if (existingProject[0]?.image_urls) {
-            // No new files - keep existing images
-            imageUrls = existingProject[0].image_urls;
+            // No new files - keep existing images only if keepExistingImages is true
+            imageUrls = keepExistingImages ? existingProject[0].image_urls : [];
         }
 
-        // Update project with stringified array
+        // Update project
         await connection.execute(
             'UPDATE projects SET title = ?, description = ?, blog_content = ?, tech_stack = ?, image_urls = ? WHERE id = ?',
             [title, description, blogContent, techStack, JSON.stringify(imageUrls), id]
