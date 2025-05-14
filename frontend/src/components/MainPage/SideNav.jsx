@@ -3,7 +3,7 @@ import { Home, Glasses, Briefcase, FolderDot, Mail } from "lucide-react";
 const SideNav = ({ visible }) => {
   return (
     <nav
-      className={`sidenav fixed top-1/2 -translate-y-1/2 left-0 w-16 sm:w-20 bg-red-900 flex flex-col items-center justify-center 
+      className={`sidenav fixed top-1/2 -translate-y-1/2 left-0 z-50 w-16 sm:w-20 bg-red-900 flex flex-col items-center justify-center 
             space-y-10 transition duration-300 ease-in-out transform 
             ${
               visible
