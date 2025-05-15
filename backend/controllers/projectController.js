@@ -55,46 +55,37 @@ exports.updateProject = async (req, res) => {
         
         await connection.beginTransaction();
 
-        // Get existing project data
-        const [existingProject] = await connection.execute(
+        // Get existing project data using the same pattern as deleteProject
+        const [results] = await connection.execute(
             'SELECT image_urls FROM projects WHERE id = ?',
             [id]
         );
 
         let imageUrls = [];
 
-        // Handle image updates
-        if (req.files && req.files.length > 0) {
-            // If new files uploaded, handle old image deletion
-            if (existingProject[0]?.image_urls) {
-                const fs = require('fs').promises;
-                const path = require('path');
-                
-                // Handle existing images without parsing
-                const oldImages = existingProject[0].image_urls;
-                
-                if (!keepExistingImages && Array.isArray(oldImages)) {
-                    // Delete old images - Fixed path to match actual directory structure
-                    for (const oldImage of oldImages) {
-                        try {
-                            await fs.unlink(path.join(__dirname, '../public/assets', oldImage));
-                            logger.info(`Deleted old image: ${oldImage}`);
-                        } catch (err) {
-                            logger.error(`Failed to delete old image ${oldImage}:`, err);
-                        }
-                    }
-                } else {
-                    // Keep existing images
-                    imageUrls = Array.isArray(oldImages) ? oldImages : [];
+        if (results && results.length > 0 && results[0].image_urls && keepExistingImages !== 'true') {
+            const fs = require('fs').promises;
+            const path = require('path');
+            
+            const oldImages = results[0].image_urls;
+
+            for (const imageUrl of oldImages) {
+                try {
+                    const imagePath = path.join(__dirname, '../public/assets', imageUrl);
+                    await fs.unlink(imagePath);
+                    logger.info(`Deleted image: ${imageUrl}`);
+                } catch (err) {
+                    logger.error(`Failed to delete image ${imageUrl}:`, err);
                 }
             }
-            
-            // Add new image URLs
+        } else if (keepExistingImages === 'true' && results[0].image_urls) {
+            imageUrls = results[0].image_urls;
+        }
+
+        // Add new images if any were uploaded
+        if (req.files && req.files.length > 0) {
             const newImageUrls = req.files.map(file => file.filename);
-            imageUrls = keepExistingImages ? [...imageUrls, ...newImageUrls] : [...newImageUrls];
-        } else if (existingProject[0]?.image_urls) {
-            // No new files - keep existing images only if keepExistingImages is true
-            imageUrls = keepExistingImages ? existingProject[0].image_urls : [];
+            imageUrls = keepExistingImages === 'true' ? [...imageUrls, ...newImageUrls] : newImageUrls;
         }
 
         // Update project
@@ -103,18 +94,11 @@ exports.updateProject = async (req, res) => {
             [title, description, blogContent, techStack, JSON.stringify(imageUrls), id]
         );
 
-        clearProjectCache(); 
+        clearProjectCache();
         await connection.commit();
         res.json({ 
             message: 'Project updated successfully',
-            project: {
-                id,
-                title,
-                description,
-                blogContent,
-                techStack,
-                image_urls: imageUrls
-            }
+            project: { id, title, description, blogContent, techStack, image_urls: imageUrls }
         });
     } catch (error) {
         await connection.rollback();
