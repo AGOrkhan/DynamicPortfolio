@@ -55,10 +55,10 @@ const Hero = () => {
             {isMobile ? (
                 <div className='z-20 text-center'>
                     <h1 className='text-4xl md:text-5xl text-white font-mono mb-4'>{userName}</h1>
-                    <p className="text-xl md:text-2xl text-white font-mono">Software Engineer, Full stack developer</p>
+                    <p className="text-xl md:text-2xl text-white font-mono">Network Engineer, Full stack developer</p>
                 </div>
             ) : (
-                <h1 className="main-subtitle z-10">Software Engineer, Full stack developer</h1>
+                <h1 className="main-subtitle z-10">Network Engineer, Full stack developer</h1>
             )}
             <div className="hero-bottom-gradient" />
         </section>
